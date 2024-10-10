@@ -1,17 +1,17 @@
 #include <stdio.h>
 
-void plnyRadek(int sirka);
-void fullSquare(int sirka, int vyska);
-void okrajovyRadek(int sirka);
-void frame(int sirka, int vyska);
-void vyplnenyRadek(int sirka, int vyska);
-void filledFrame(int sirka, int vyska);
-void diagonal(int sirka);
-void reversedDiagonal(int sirka);
-void triangle(int vyska);
-void hammer(int sirka, int vyska);
-void hLetter(int sirka, int vyska);
-void bonus(int sirka, int vyska);
+void plnyRadek(int length);
+void fullSquare(int length, int height);
+void okrajovyRadek(int length);
+void frame(int length, int height);
+void vyplnenyRadek(int length, int height);
+void filledFrame(int length, int height);
+void diagonal(int length);
+void reversedDiagonal(int length);
+void triangle(int height);
+void hammer(int length, int height);
+void hLetter(int length, int height);
+void bonus(int length, int height);
 
 int main() {
 
@@ -20,7 +20,7 @@ int main() {
     int B = 0;
     scanf("%d %d %d", &obrazec, &A, &B);
 
-    switch(obrazec){
+    switch (obrazec) {
         case 0:
         fullSquare(A, B);
         break;
@@ -64,22 +64,22 @@ int main() {
     return 0;
 }
 
-void plnyRadek(int sirka){
-    for(int i = 0; i < sirka; i++){
+void plnyRadek(int length) {
+    for (int i = 0; i < length; i++) {
         printf("x");
     }
     printf("\n");
 }
 
-void fullSquare(int sirka, int vyska){
-    for(int i = 0; i < vyska; i++){
-        plnyRadek(sirka);
+void fullSquare(int length, int height) {
+    for (int i = 0; i < height; i++) {
+         plnyRadek(length);
     }
 }
 
-void okrajovyRadek(int sirka){
-    for(int i = 0; i < sirka; i++){
-        if(i == 0 || i == sirka-1){
+void okrajovyRadek(int length) {
+    for (int i = 0; i < length; i++) {
+        if (i == 0 || i == length-1) {
             printf("x");
         }
         else {
@@ -89,37 +89,37 @@ void okrajovyRadek(int sirka){
     printf("\n");
 }
 
-void frame(int sirka, int vyska){
-    plnyRadek(sirka);
-    for(int j = 0; j < vyska-2; j++){
-        okrajovyRadek(sirka);
+void frame(int length, int height) {
+    plnyRadek(length);
+    for (int j = 0; j < height-2; j++) {
+        okrajovyRadek(length);
     }
-    plnyRadek(sirka);
+    plnyRadek(length);
 }
 
-void vyplnenyRadek(int sirka, int vyska){
-    for(int i = 0; i < vyska-2; i++){
-        for(int j = 0; j < sirka; j++){
-            if(j == 0 || j == sirka-1){
+void vyplnenyRadek(int length, int height) {
+    for (int i = 0; i < height-2; i++) {
+        for (int j = 0; j < length; j++) {
+            if (j == 0 || j == length-1) {
                 printf("x");
             }
             else {
-                printf("%d", ((j-1)+((sirka-2)*i)) % 10);        
+                printf("%d", ((j-1)+((length-2)*i)) % 10);        
             }
         }
         printf("\n");
     }
 }
 
-void filledFrame(int sirka, int vyska){
-    plnyRadek(sirka);
-    vyplnenyRadek(sirka, vyska);
-    plnyRadek(sirka);
+void filledFrame(int length, int height) {
+    plnyRadek(length);
+    vyplnenyRadek(length, height);
+    plnyRadek(length);
 }
 
-void diagonal(int sirka){
-    for(int i = 0; i < sirka; i++){
-        for (int j = 0; j < i; j++){ 
+void diagonal(int length) {
+    for (int i = 0; i < length; i++) {
+        for (int j = 0; j < i; j++) { 
             printf(" "); 
         }
         printf("x");
@@ -127,26 +127,26 @@ void diagonal(int sirka){
     }
 }
 
-void reversedDiagonal(int sirka){
-    for(int i = sirka; 0 < i; i--){
-        for (int j = 0; j < i-1; j++){ 
+void reversedDiagonal(int length) {
+    for (int i = length; 0 < i; i--) {
+        for (int j = 0; j < i-1; j++) { 
             printf(" "); 
         }
         printf("x");
-        for (int j = 0; j < sirka - i; j++) {
+        for (int j = 0; j < length - i; j++) {
             printf(" ");
         }
         printf("\n");
     }
 }
 
-void triangle(int vyska){
-    for(int i = vyska, L = -1; 1 < i; i--, L+=2){
+void triangle(int height) {
+    for (int i = height, L = -1; 1 < i; i--, L+=2) {
         for (int j = 0; j < i-1; j++) { 
             printf(" "); 
         }
         printf("x");
-        for (int j = 0; j < L; j++){
+        for (int j = 0; j < L; j++) {
             printf(" "); 
         }
         if(L > 0) { printf("x"); }
@@ -155,15 +155,15 @@ void triangle(int vyska){
         }
         printf("\n");
     }
-    plnyRadek(vyska*2-1);
+    plnyRadek(height*2-1);
 }
 
-void hammer(int sirka, int vyska){
-    plnyRadek(sirka);
-    int middle = sirka / 2 + 1;
-    for(int i = 0; i < vyska-1; i++){
-        for(int j = 1; j <= middle; j++){
-            if(j == middle){
+void hammer(int length, int height) {
+    plnyRadek(length);
+    int middle = length / 2 + 1;
+    for (int i = 0; i < height-1; i++) {
+        for (int j = 1; j <= middle; j++) {
+            if (j == middle) {
                 printf("x");
             }
             else {
@@ -174,29 +174,29 @@ void hammer(int sirka, int vyska){
     }
 }
 
-void hLetter(int sirka, int vyska){
-    int middle = vyska / 2;
-    for (int i = 0; i < vyska; i++){
-        if(i == middle){
-            plnyRadek(sirka);
+void hLetter(int length, int height) {
+    int middle = height / 2;
+    for (int i = 0; i < height; i++) {
+        if (i == middle) {
+            plnyRadek(length);
             continue;
         }
-        okrajovyRadek(sirka);
+        okrajovyRadek(length);
     }
 }
 
-void bonus(int sirka, int vyska){
-    plnyRadek(sirka);
-    for(int i = 0; i < vyska-2; i++){
-        for(int j = 0; j < sirka; j++){
-            if(j == 0 || j == sirka-1){
+void bonus(int length, int height) {
+    plnyRadek(length);
+    for (int i = 0; i < height-2; i++) {
+        for (int j = 0; j < length; j++) {
+            if (j == 0 || j == length-1) {
                 printf("x");
             }
             else {
-                printf("%d", ((j-1)*(vyska-2)+i) % 10);        
+                printf("%d", ((j-1)*(height-2)+i) % 10);        
             }
         }
         printf("\n");
     }
-    plnyRadek(sirka);
+    plnyRadek(length);
 }
