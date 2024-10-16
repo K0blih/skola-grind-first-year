@@ -168,6 +168,15 @@ void animation() {
     while (1) {
         move_to(20, 20);
         flower(i, j);
+        if (i == 8) {
+            set_yellow_color();
+            move_up();
+            move_up();
+            move_up();
+            move_up();
+            move_up();
+            draw_pixel();
+        }
         animate();
         clear_screen();
         if (i >= 8 || i <= 3) {
