@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // void swap(int* a, int* b){
 //     int tmp = *a;
@@ -18,21 +19,97 @@
 //     return 0;
 // }
 
-void sumArray(int* a, int N, int* result) {
-    for (int i = 0, j = 0; i < N - N % 2; i += 2, j++) {
-        result[j] = a[i] + a[i+1];
+// void sumArray(int* a, int N, int* result) {
+//     for (int i = 0, j = 0; i < N - N % 2; i += 2, j++) {
+//         result[j] = a[i] + a[i+1];
+//     }
+// }
+
+// int main() {
+    
+//     int a[] = {0,1,2,3,4,5,6,7,8,9,10};
+//     int N = sizeof(a) / sizeof(a[0]);
+//     int M = N / 2;
+//     int result[M];
+//     sumArray(a, N, result);
+//     for (int i = 0; i < M; i++) {
+//         printf("%d\n", result[i]);
+//     }
+//     return 0;
+// }
+
+void init_1D(int* p, int  N) {
+    for (int i = 0; i < N; i++) {
+        p[i] = i;
+    }
+}
+
+void print_1D(int* p, int  N) {
+    for (int i = 0; i < N; i++) {
+        printf("%d\n", p[i]);
+    }
+}
+
+void allocate_1D(int **p, int N) {
+    *p = (int*)malloc(sizeof(int)*N);
+}
+
+void deallocate_1D(int **p) {
+    free(*p);
+    *p = NULL;
+}
+
+void init_2D(int *p, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            p[i * cols + j] = i * cols + j;
+        }
+    }
+}
+
+void print_2D(int *p, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d\t", p[i*cols+j]);
+        }
+        printf("\n");
     }
 }
 
 int main() {
-    
-    int a[] = {0,1,2,3,4,5,6,7,8,9,10};
-    int N = sizeof(a) / sizeof(a[0]);
-    int M = N / 2;
-    int result[M];
-    sumArray(a, N, result);
-    for (int i = 0; i < M; i++) {
-        printf("%d\n", result[i]);
+
+    // int N = 10;
+    // int* p = NULL;
+
+    // allocate_1D(&p, N);
+    // init_1D(p, N);
+    // print_1D(p, N);
+    // deallocate_1D(&p);
+
+    int rows = 10;
+    int cols = 5;
+    int *p = NULL;
+
+    allocate_1D(&p, rows * cols);
+    init_2D(&p, rows, cols);
+    print_2D(&p, rows, cols);
+    deallocate_1D(&p);
+
+    if (p == NULL) {
+        printf("OK\n");
     }
+
+    int** q = NULL;
+    q = (int**)malloc(sizeof(int*) * rows);
+
+    for (int i = 0; i < rows; i++) {
+        q[i] = (int*)malloc(sizeof(int) * cols);
+    }
+
+    for ( int i = 0; i < rows; i++) {
+        free(q[i]);
+    }
+    free(q);
     return 0;
 }
+
