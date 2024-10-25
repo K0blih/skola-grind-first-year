@@ -64,9 +64,9 @@ int main() {
 }
 
 void allocateGrid(char ***grid, int rows, int cols) {
-    *grid = (char**)malloc(sizeof(char*) * rows);
+    *grid = (char**)malloc(sizeof(char*) * (size_t)rows);
     for (int i = 0; i < rows; i++) {
-        (*grid)[i] = (char*)malloc(sizeof(char) * cols);
+        (*grid)[i] = (char*)malloc(sizeof(char) * (size_t)cols);
     }
 }
 
