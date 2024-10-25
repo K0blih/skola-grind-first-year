@@ -23,8 +23,8 @@ void updateGrid(char ***grid, struct Turtle *turtle);
 
 int main() {
     
-    long unsigned int rows = 0;
-    long unsigned int cols = 0;
+    int rows = 0;
+    int cols = 0;
     int turtleCount = 1;
     struct Turtle turtle[3] = {
         {0, 0, dirRight},
@@ -32,7 +32,7 @@ int main() {
         {0, 0, dirRight}
     };
 
-    scanf("%lu %lu", &rows, &cols);
+    scanf("%d %d", &rows, &cols);
 
     char** grid = NULL;
     allocateGrid(&grid, rows, cols);
