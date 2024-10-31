@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // void swap(int* a, int* b){
 //     int tmp = *a;
@@ -38,78 +39,114 @@
 //     return 0;
 // }
 
-void init_1D(int* p, int  N) {
-    for (int i = 0; i < N; i++) {
-        p[i] = i;
+// void init_1D(int* p, int  N) {
+//     for (int i = 0; i < N; i++) {
+//         p[i] = i;
+//     }
+// }
+
+// void print_1D(int* p, int  N) {
+//     for (int i = 0; i < N; i++) {
+//         printf("%d\n", p[i]);
+//     }
+// }
+
+// void allocate_1D(int **p, int N) {
+//     *p = (int*)malloc(sizeof(int)*N);
+// }
+
+// void deallocate_1D(int **p) {
+//     free(*p);
+//     *p = NULL;
+// }
+
+// void init_2D(int *p, int rows, int cols) {
+//     for (int i = 0; i < rows; i++) {
+//         for (int j = 0; j < cols; j++) {
+//             p[i * cols + j] = i * cols + j;
+//         }
+//     }
+// }
+
+// void print_2D(int *p, int rows, int cols) {
+//     for (int i = 0; i < rows; i++) {
+//         for (int j = 0; j < cols; j++) {
+//             printf("%d\t", p[i*cols+j]);
+//         }
+//         printf("\n");
+//     }
+// }
+
+// int main() {
+
+//     // int N = 10;
+//     // int* p = NULL;
+
+//     // allocate_1D(&p, N);
+//     // init_1D(p, N);
+//     // print_1D(p, N);
+//     // deallocate_1D(&p);
+
+//     int rows = 10;
+//     int cols = 5;
+//     int *p = NULL;
+
+//     allocate_1D(&p, rows * cols);
+//     init_2D(&p, rows, cols);
+//     print_2D(&p, rows, cols);
+//     deallocate_1D(&p);
+
+//     if (p == NULL) {
+//         printf("OK\n");
+//     }
+
+//     int** q = NULL;
+//     q = (int**)malloc(sizeof(int*) * rows);
+
+//     for (int i = 0; i < rows; i++) {
+//         q[i] = (int*)malloc(sizeof(int) * cols);
+//     }
+
+//     for ( int i = 0; i < rows; i++) {
+//         free(q[i]);
+//     }
+//     free(q);
+//     return 0;
+// }
+
+int strlength(char* str) {
+    int i = 0;
+    while (str[i] != '\0') {
+        i++;
     }
-}
 
-void print_1D(int* p, int  N) {
-    for (int i = 0; i < N; i++) {
-        printf("%d\n", p[i]);
-    }
-}
-
-void allocate_1D(int **p, int N) {
-    *p = (int*)malloc(sizeof(int)*N);
-}
-
-void deallocate_1D(int **p) {
-    free(*p);
-    *p = NULL;
-}
-
-void init_2D(int *p, int rows, int cols) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            p[i * cols + j] = i * cols + j;
-        }
-    }
-}
-
-void print_2D(int *p, int rows, int cols) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            printf("%d\t", p[i*cols+j]);
-        }
-        printf("\n");
-    }
+    return i;
 }
 
 int main() {
+    
+    int N = 4096;
+    char* buffer = (char*)malloc(sizeof(char) * N);
+    // char buffer[256];
 
-    // int N = 10;
-    // int* p = NULL;
+    strcpy(buffer, "retezec ,asdsa, dasd sad asd ads");
 
-    // allocate_1D(&p, N);
-    // init_1D(p, N);
-    // print_1D(p, N);
-    // deallocate_1D(&p);
-
-    int rows = 10;
-    int cols = 5;
-    int *p = NULL;
-
-    allocate_1D(&p, rows * cols);
-    init_2D(&p, rows, cols);
-    print_2D(&p, rows, cols);
-    deallocate_1D(&p);
-
-    if (p == NULL) {
-        printf("OK\n");
+    char* token = strtok(buffer, " ,*");
+    
+    while(token != NULL) {
+        printf("%s\n", token);
+        token = strtok(NULL, " *,");
     }
 
-    int** q = NULL;
-    q = (int**)malloc(sizeof(int*) * rows);
+    // int length = strlength(buffer);
+    // printf("%d\n", length);
 
-    for (int i = 0; i < rows; i++) {
-        q[i] = (int*)malloc(sizeof(int) * cols);
-    }
+    // fgets(buffer, 256, stdin);
+    // printf("%s\n", buffer);
 
-    for ( int i = 0; i < rows; i++) {
-        free(q[i]);
-    }
-    free(q);
+    free(buffer);
+    buffer = NULL;
+
     return 0;
 }
 
