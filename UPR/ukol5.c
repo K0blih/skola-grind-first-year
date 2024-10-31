@@ -14,12 +14,12 @@ struct Turtle {
     enum Direction dir;
 };
 
-void allocateGrid(char ***grid, int rows, int cols);
-void initGrid(char ***grid, int rows, int cols);
-void printGrid(char ***grid, int rows, int cols);
-void deallocateGrid(char ***grid, int rows);
-void doAction(char ***grid, struct Turtle *turtle, char action, int rows, int cols);
-void updateGrid(char ***grid, struct Turtle *turtle);
+void allocateGrid(char **grid, int rows, int cols);
+void initGrid(char *grid, int rows, int cols);
+void printGrid(char *grid, int rows, int cols);
+void deallocateGrid(char *grid);
+void doAction(char **grid, struct Turtle *turtle, char action, int rows, int cols);
+void updateGrid(char **grid, struct Turtle *turtle, int cols);
 
 int main() {
     
@@ -34,9 +34,9 @@ int main() {
 
     scanf("%d %d", &rows, &cols);
 
-    char** grid = NULL;
+    char* grid = NULL;
     allocateGrid(&grid, rows, cols);
-    initGrid(&grid, rows, cols);
+    initGrid(grid, rows, cols);
 
     while (1) {
 
@@ -57,45 +57,37 @@ int main() {
         }
     }
 
-    printGrid(&grid, rows, cols);
-    deallocateGrid(&grid, rows);
+    printGrid(grid, rows, cols);
+    deallocateGrid(grid);
 
     return 0;
 }
 
-void allocateGrid(char ***grid, int rows, int cols) {
-    *grid = (char**)malloc(sizeof(char*) * (size_t)rows);
-    for (int i = 0; i < rows; i++) {
-        (*grid)[i] = (char*)malloc(sizeof(char) * (size_t)cols);
+void allocateGrid(char **grid, int rows, int cols) {
+    *grid = (char*)malloc(sizeof(char) * (size_t)rows * (size_t)cols);
+}
+
+void initGrid(char *grid, int rows, int cols) {
+    for (int i = 0; i < rows * cols; i++) {
+        grid[i] = '.';
     }
 }
 
-void initGrid(char ***grid, int rows, int cols) {
+void printGrid(char *grid, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            (*grid)[i][j] = '.';
-        }
-    }
-}
-
-void printGrid(char ***grid, int rows, int cols) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            printf("%c", (*grid)[i][j]);
+            printf("%c", grid[i * cols + j]);
         }
         printf("\n");
     }
 }
 
-void deallocateGrid(char ***grid, int rows) {
-    for (int i = 0; i < rows; i++) {
-        free((*grid)[i]);
-    }
-    free(*grid);
-    *grid = NULL;
+void deallocateGrid(char *grid) {
+    free(grid);
+    grid = NULL;
 }
 
-void doAction(char ***grid, struct Turtle *turtle, char action, int rows, int cols) {
+void doAction(char **grid, struct Turtle *turtle, char action, int rows, int cols) {
     if (action == 'l') {
         turtle->dir = (turtle->dir + 1) % 4;
     } 
@@ -129,15 +121,16 @@ void doAction(char ***grid, struct Turtle *turtle, char action, int rows, int co
         }
     }
     else if (action == 'o') {
-        updateGrid(grid, turtle);
+        updateGrid(grid, turtle, cols);
     }
 }
 
-void updateGrid(char ***grid, struct Turtle *turtle) {
-    if ((*grid)[turtle->locRow][turtle->locCol] == '.') {
-        (*grid)[turtle->locRow][turtle->locCol] = 'o';
+void updateGrid(char **grid, struct Turtle *turtle, int cols) {
+    int index = turtle->locRow * cols + turtle->locCol;
+    if ((*grid)[index] == '.') {
+        (*grid)[index] = 'o';
     } 
-    else if ((*grid)[turtle->locRow][turtle->locCol] == 'o') {
-        (*grid)[turtle->locRow][turtle->locCol] = '.';
+    else if ((*grid)[index] == 'o') {
+        (*grid)[index] = '.';
     }
 }
