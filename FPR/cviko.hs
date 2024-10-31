@@ -82,3 +82,28 @@ zipThem _ _ = []
 
 dotProduct :: [a] -> [b] -> [(a,b)]
 dotProduct xs ys = [(x,y)|x<-xs, y<-ys]
+
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort [x] = [x]
+quicksort (x:xs) = quicksort [y | y<-xs,y<x] ++ [x] ++ quicksort (filter (x<=) xs)
+
+oddList :: Int -> Int -> [Int]
+oddList x y = filter odd [x..y]
+
+removeDuplicates :: Eq a => [a] -> [a]
+removeDuplicates [] = []
+removeDuplicates (x:xs) = x : removeDuplicates (filter (/= x) xs)
+
+union :: Eq a => [a] -> [a] -> [a]
+union xs ys = [x | x <- removeDuplicates xs] ++ [y | y<-ys, not (elem y xs)]
+
+intersection :: Eq a => [a] -> [a] -> [a]
+intersection xs ys = [y | y<-ys, elem y xs]
+
+countThem :: String -> [(Char, Int)]
+countThem [] = []
+countThem xs = [(x, length (filter (==x) xs)) | x <- removeDuplicates xs]
+
+goldbach :: Int-> [(Int, Int)]
+goldbach n = [(x, n-x) | x<- [1..(n-1)], prime x, prime (n-x)]
