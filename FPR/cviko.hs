@@ -107,3 +107,62 @@ countThem xs = [(x, length (filter (==x) xs)) | x <- removeDuplicates xs]
 
 goldbach :: Int-> [(Int, Int)]
 goldbach n = [(x, n-x) | x<- [1..(n-1)], prime x, prime (n-x)]
+
+data Expr = Num Int
+          | Add Expr Expr
+          | Sub Expr Expr
+          | Mul Expr Expr
+          | Div Expr Expr
+          | Var Char deriving (Eq)
+
+ex1 = Add (Num 1) (Mul (Num 2) (Num 3))
+ex2 = Mul (Add (Num 1) (Num 2)) (Num 3)
+
+eval :: Expr -> Int
+eval (Num x) = x
+eval (Add l r) =  (eval l) + (eval r)
+eval (Sub l r) =  (eval l) - (eval r)
+eval (Mul l r) =  (eval l) * (eval r)
+eval (Div l r) =  (eval l) `div` (eval r)
+
+showExpr :: Expr -> String
+showExpr (Num x) = show x
+showExpr (Var ch) = [ch]
+showExpr (Add l r) = "(" ++ showExpr l ++ "+" ++ showExpr r ++ ")"
+showExpr (Sub l r) = "(" ++ showExpr l ++ "-" ++ showExpr r ++ ")"
+showExpr (Mul l r) = "(" ++ showExpr l ++ "*" ++ showExpr r ++ ")"
+showExpr (Div l r) = "(" ++ showExpr l ++ "/" ++ showExpr r ++ ")"
+
+instance Show Expr where
+    show = showExpr
+
+deriv :: Expr -> Char -> Expr
+deriv (Num num) x = Num 0
+deriv (Var myVar) x | myVar == x = Num 1
+                    | otherwise = Num 0
+deriv (Add u v) x = Add (deriv u x) (deriv v x)
+deriv (Sub u v) x = Sub (deriv u x) (deriv v x)
+deriv (Mul u v) x = Add (Mul (deriv u x) v) (Mul (deriv v x) u)
+deriv (Div u v) x = Div (Sub (Mul (deriv u x) v) (Mul (deriv v x) u)) (Mul v v)
+
+data Tree a = Leaf a 
+            | Branch a (Tree a) (Tree a) deriving (Show)
+
+testTree1 :: Tree Int            
+testTree1 = Branch 12 (Branch 23 (Leaf 34) (Leaf 45)) (Leaf 55)
+
+sum' :: Tree Int -> Int
+sum' (Leaf x) = x
+sum' (Branch x l r) = sum' l + x + sum' r
+
+toList :: Tree a -> [a]
+toList (Leaf x) = [x]
+toList (Branch x l r) = toList l ++ [x] ++ toList r
+
+maxTree :: Ord a => Tree a -> a
+maxTree (Leaf x) = x
+maxTree (Branch x l r) = maximum [x, maxTree l, maxTree r]
+
+depthTree :: Tree a -> Int
+depthTree (Leaf x) = 1
+depthTree (Branch x l r) = max (depthTree l) (depthTree r) + 1
