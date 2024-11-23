@@ -166,3 +166,49 @@ maxTree (Branch x l r) = maximum [x, maxTree l, maxTree r]
 depthTree :: Tree a -> Int
 depthTree (Leaf x) = 1
 depthTree (Branch x l r) = max (depthTree l) (depthTree r) + 1
+
+data Point = Point {column::Int,row::Int}
+
+data Position = Position {leftTopCorner :: Point, width :: Int, height :: Int}
+
+data Component
+  = TextBox {name :: String, position :: Position, text :: String}
+  | Button {name :: String, position :: Position, text :: String}
+  | Container {name :: String, children :: [Component]}
+
+gui :: Component
+gui =
+  Container "My App"
+    [ Container "Menu"
+        [ Button "btn_new" (Position (Point 0 0) 100 20) "New",
+          Button "btn_open" (Position (Point 100 0) 100 20) "Open",
+          Button "btn_close" (Position (Point 200 0) 100 20) "Close"
+        ],
+      Container "Body" [TextBox "textbox_1" (Position (Point 0 20) 300 500) "Some text goes here"],
+      Container "Footer" []
+    ]
+
+instance Show Point where
+    show (Point {column = x, row = y}) = "(" ++ show x ++ "," ++ show y ++ ")"
+
+instance Show Position where
+    show (Position {leftTopCorner = x, width = y, height = z}) = show x ++ "[" ++ show y ++ "," ++ show z ++ "]"
+
+instance Show Component where
+    show c = showTmp "" c where
+        showTmp indent (TextBox {name = x, position = p, text = t}) = indent ++ show p ++ " TextBox[" ++ x ++ "]: " ++ t
+        showTmp indent (Button {name = x, position = p, text = t}) = indent ++ show p ++ " Button[" ++ x ++ "]: " ++ t
+        showTmp indent (Container {name = x, children = childs}) = let
+            processed = concat ["\n" ++ showTmp (indent ++ "  ") c | c <- childs]
+            in indent ++ "Container - " ++ x ++ processed
+
+insertInto :: Component -> String -> Component -> Component
+insertInto (TextBox x y z) _ _ = (TextBox x y z)
+insertInto (Button x y z)  _ _ = (Button x y z)
+insertInto (Container x child) name what | x == name = Container x (what : child)
+                                         | otherwise = Container x [insertInto c name what | c <- child]
+-- insert into c _ _ = c                                         
+
+deleteFrom :: Component -> String -> Component
+deleteFrom (Container x child) target = Container x [deleteFrom c target | c <- child, name c /= target]
+deleteFrom c _ = c

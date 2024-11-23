@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <limits.h>
 
 // void swap(int* a, int* b){
 //     int tmp = *a;
@@ -114,39 +116,82 @@
 //     return 0;
 // }
 
-int strlength(char* str) {
-    int i = 0;
-    while (str[i] != '\0') {
-        i++;
-    }
+// int strlength(char* str) {
+//     int i = 0;
+//     while (str[i] != '\0') {
+//         i++;
+//     }
 
-    return i;
-}
+//     return i;
+// }
+
+// int main() {
+    
+//     int N = 4096;
+//     char* buffer = (char*)malloc(sizeof(char) * N);
+//     // char buffer[256];
+
+//     strcpy(buffer, "retezec ,asdsa, dasd sad asd ads");
+
+//     char* token = strtok(buffer, " ,*");
+    
+//     while(token != NULL) {
+//         printf("%s\n", token);
+//         token = strtok(NULL, " *,");
+//     }
+
+//     // int length = strlength(buffer);
+//     // printf("%d\n", length);
+
+//     // fgets(buffer, 256, stdin);
+//     // printf("%s\n", buffer);
+
+//     free(buffer);
+//     buffer = NULL;
+
+//     return 0;
+// }
 
 int main() {
-    
-    int N = 4096;
-    char* buffer = (char*)malloc(sizeof(char) * N);
-    // char buffer[256];
 
-    strcpy(buffer, "retezec ,asdsa, dasd sad asd ads");
+    // srand(time(NULL));
 
-    char* token = strtok(buffer, " ,*");
+    // int a = rand() % 36 - 15;
+    // printf("%d", a);
+
+    FILE* file = fopen("soubor.txt", "w");
+
+    fputs("kys", file);
+    fprintf(file, "kys x%d", 10);
+
+    fclose(file);
+
+    file = fopen("soubor.txt", "r");
     
-    while(token != NULL) {
-        printf("%s\n", token);
-        token = strtok(NULL, " *,");
+    char buffer[256];
+    while(fgets(buffer, sizeof(buffer), file)) {
+        printf("%s", buffer);
     }
 
-    // int length = strlength(buffer);
-    // printf("%d\n", length);
+    fclose(file);
 
-    // fgets(buffer, 256, stdin);
-    // printf("%s\n", buffer);
+    // int a = INT_MAX;
+    int a[] = {0,1,2,3,4,5,6,7,8,9};
+    int N = sizeof(a) / sizeof(a[0]);
 
-    free(buffer);
-    buffer = NULL;
+    FILE* binaryFile = fopen("soubor.txt", "wb");
 
+    fwrite(&a, sizeof(a), N, binaryFile);
+
+    fclose(binaryFile);
+
+    // long int b = 0;
+    int intBuffer[10];
+
+    binaryFile = fopen("soubor.txt", "rb");
+
+    fread(intBuffer, sizeof(int), 10, binaryFile);
+
+    fclose(binaryFile);
     return 0;
 }
-
