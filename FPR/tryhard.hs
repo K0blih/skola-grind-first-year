@@ -97,3 +97,103 @@ makeTriples _ = []
 
 insertOnIndex :: [a] -> a -> Int -> [a]
 insertOnIndex xs el index = take index xs ++ [el] ++ drop index xs
+
+-----------------------------------------------------------------------------------
+
+data Tree a = Leaf a 
+            | Branch a (Tree a) (Tree a) deriving (Show)
+
+testTree1 :: Tree Int            
+testTree1 = Branch 12 (Branch 23 (Leaf 34) (Leaf 45)) (Leaf 55)
+
+testTree2 :: Tree Char            
+testTree2 = Branch 'a' (Branch 'b' (Leaf 'c') (Leaf 'd')) (Leaf 'e')
+
+getGreaterElements :: Ord a => Tree a -> a -> [a]
+getGreaterElements (Leaf x) m | x > m = [x]
+                              | otherwise = []
+getGreaterElements (Branch x l r) m = [list | list <- (getGreaterElements l m ++ [x] ++ getGreaterElements r m), list > m]
+
+toString :: Show a => Tree a -> String
+toString (Leaf x) = show x
+toString (Branch x l r) = show x ++ "(" ++ (toString l) ++ "," ++ (toString r) ++ ")"
+
+fromString :: Read a => String -> Tree a
+fromString inp = fst (fromString' inp) where
+  fromString' :: Read a => String -> (Tree a,String)
+  fromString' inp = 
+    let
+      before = takeWhile (\x ->  x /='(' &&  x /=',' &&  x/=')') inp 
+      after = dropWhile (\x ->  x /='(' &&  x /=',' && x/=')') inp
+      value = read before
+    in if null after || head after /= '(' then (Leaf value, after) else 
+        let
+          (l,after') = fromString' (tail after)
+          (r,after'') = fromString' (tail after') 
+        in (Branch value l r, tail after'')
+
+leafCount :: Tree a -> Int
+leafCount (Leaf x) = 1
+leafCount (Branch x l r) = leafCount l + leafCount r
+
+branchCount :: Tree a -> Int
+branchCount (Leaf x) = 0
+branchCount (Branch x l r) = branchCount l + branchCount r + 1
+
+contains :: Eq a => Tree a -> a -> Bool
+contains (Leaf x) value | x == value = True
+                        | otherwise = False
+contains (Branch x l r) value | x == value = True
+                              | contains l value = True
+                              | contains r value = True
+                              | otherwise = False
+
+greaterThan :: Ord a => Tree a -> a -> Int
+greaterThan (Leaf x) m | x > m = 1
+                       | otherwise = 0
+greaterThan (Branch x l r) m = length [list | list <- (getGreaterElements l m ++ [x] ++ getGreaterElements r m), list > m]
+
+--------------------------------------
+
+-- data Entity = Point {x :: Double, y :: Double}
+--             | Circle {centerX :: Double, centerY :: Double, radius :: Int}
+--             | Container {children :: [Entity]}
+--             deriving (Show)
+
+-- entityExample :: Entity
+-- entityExample = Container [
+--                    Point 1.0 2.0,
+--                    Circle 3.0 4.0 5,
+--                    Container [Point 6.0 7.0, Circle 8.0 9.0 10]
+--                ]
+
+data Component = 
+    TextBox {name :: String, text :: String} 
+    | Button {name :: String, value :: String} 
+    | Container {name :: String, children :: [Component]}
+
+gui :: Component
+gui = Container "My App" 
+    [ Container "Menu" 
+        [ Button "btn_new" "New",
+          Button "btn_open" "Open",
+          Button "btn_close" "Close"
+        ],
+      Container "Body" 
+        [ TextBox "textbox_1" "Some text goes here" ],
+      Container "Footer" []
+    ]
+
+countButtons :: Component -> Int
+countButtons (TextBox _ _) = 0
+countButtons (Button _ _) = 1
+countButtons (Container _ children) = sum (map countButtons children)
+
+addElement :: Component -> Component -> String -> Component
+addElement (TextBox name text) _ _ = TextBox name text
+addElement (Button name value) _ _ = Button name value
+addElement (Container name children) newComponent targetName
+    | name == targetName = Container name (children ++ [newComponent])
+    | otherwise = Container name (map (\child -> addElement child newComponent targetName) children)
+
+

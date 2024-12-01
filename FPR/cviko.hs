@@ -207,8 +207,8 @@ insertInto (TextBox x y z) _ _ = (TextBox x y z)
 insertInto (Button x y z)  _ _ = (Button x y z)
 insertInto (Container x child) name what | x == name = Container x (what : child)
                                          | otherwise = Container x [insertInto c name what | c <- child]
--- insert into c _ _ = c                                         
+-- insertInto c _ _ = c                                         
 
 deleteFrom :: Component -> String -> Component
-deleteFrom (Container x child) target = Container x [deleteFrom c target | c <- child, name c /= target]
+deleteFrom (Container x child) target = Container x [deleteFrom c target |c<-child, name c /= target ]
 deleteFrom c _ = c

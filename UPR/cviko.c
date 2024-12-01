@@ -152,6 +152,27 @@
 //     return 0;
 // }
 
+typedef struct {
+    char idlength;
+    char colourmaptype;
+    char datatypecode;
+    char colourmaporigin[2];
+    char colourmaplength[2];
+    char colourmapdepth;
+    char x_origin[2];
+    char y_origin[2];
+    char width[2];
+    char height[2];
+    char bitsperpixel;
+    char imagedescriptor;
+} HEADER;
+
+typedef struct {
+    char B;
+    char G;
+    char R;
+} PIXEL;
+
 int main() {
 
     // srand(time(NULL));
@@ -159,39 +180,65 @@ int main() {
     // int a = rand() % 36 - 15;
     // printf("%d", a);
 
-    FILE* file = fopen("soubor.txt", "w");
+    // FILE* file = fopen("soubor.txt", "w");
 
-    fputs("kys", file);
-    fprintf(file, "kys x%d", 10);
+    // fputs("kys", file);
+    // fprintf(file, "kys x%d", 10);
 
-    fclose(file);
+    // fclose(file);
 
-    file = fopen("soubor.txt", "r");
+    // file = fopen("soubor.txt", "r");
     
-    char buffer[256];
-    while(fgets(buffer, sizeof(buffer), file)) {
-        printf("%s", buffer);
+    // char buffer[256];
+    // while(fgets(buffer, sizeof(buffer), file)) {
+    //     printf("%s", buffer);
+    // }
+
+    // fclose(file);
+
+    // // int a = INT_MAX;
+    // int a[] = {0,1,2,3,4,5,6,7,8,9};
+    // int N = sizeof(a) / sizeof(a[0]);
+
+    // FILE* binaryFile = fopen("soubor.txt", "wb");
+
+    // fwrite(&a, sizeof(a), N, binaryFile);
+
+    // fclose(binaryFile);
+
+    // // long int b = 0;
+    // int intBuffer[10];
+
+    // binaryFile = fopen("soubor.txt", "rb");
+
+    // fread(intBuffer, sizeof(int), 10, binaryFile);
+
+    // fclose(binaryFile);
+
+    int width = 1920;
+    int height = 1080;
+    HEADER header = {0, 0, 2, {0}, {0}, 0, {0}, {0}, {0}, {0}, 24, 32};
+    memcpy(header.width, &width, 2);
+    memcpy(header.height, &height, 2);
+
+    PIXEL* pixel = (PIXEL*)malloc(sizeof(PIXEL) * width * height);
+
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            
+            int i = y * width + x;
+            pixel[i].B = (x * y) % 256;
+            pixel[i].G = (x * y) % 256;
+            pixel[i].R = (x * y) % 256;
+        }
     }
 
-    fclose(file);
+    FILE* image = fopen("image.tga", "wb");
 
-    // int a = INT_MAX;
-    int a[] = {0,1,2,3,4,5,6,7,8,9};
-    int N = sizeof(a) / sizeof(a[0]);
+    fwrite(&header, sizeof(header), 1, image); 
+    fwrite(pixel, sizeof(PIXEL), width * height, image);
 
-    FILE* binaryFile = fopen("soubor.txt", "wb");
+    fclose(image);
 
-    fwrite(&a, sizeof(a), N, binaryFile);
-
-    fclose(binaryFile);
-
-    // long int b = 0;
-    int intBuffer[10];
-
-    binaryFile = fopen("soubor.txt", "rb");
-
-    fread(intBuffer, sizeof(int), 10, binaryFile);
-
-    fclose(binaryFile);
     return 0;
 }
