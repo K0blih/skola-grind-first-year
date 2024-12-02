@@ -32,7 +32,7 @@ int main (int argc, char* argv[]) {
     char* inputFile = "0";
     char* outputFile = "0";
     char* fontFile = "0";
-    char alphabet[26][10];
+    char alphabet[26][20];
     Pixel* letterPixels[26] = {NULL};
     int n = sizeof(alphabet) / sizeof(alphabet[0]);
 
@@ -51,7 +51,7 @@ int main (int argc, char* argv[]) {
     FILE* file = NULL;
     file = fopen(inputFile, "rb");
     if (file == NULL) {
-        printf("Could not load image");
+        printf("Could not load image\n");
         return 1;
     }
 
