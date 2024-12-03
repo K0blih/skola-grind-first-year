@@ -34,6 +34,8 @@ int main (int argc, char* argv[]) {
     char* fontFile = "0";
     char alphabet[26][20];
     Pixel* letterPixels[26] = {NULL};
+    int letterWidth[26] = {0};
+    int letterHeight[26] = {0};
     int n = sizeof(alphabet) / sizeof(alphabet[0]);
 
     // arg check
@@ -74,6 +76,8 @@ int main (int argc, char* argv[]) {
         
         TGAHeader headerLetter = {0};
         fread(&headerLetter, sizeof(TGAHeader), 1, letter);
+        memcpy(&letterWidth[i], headerLetter.width, 2);
+        memcpy(&letterHeight[i], headerLetter.height, 2);
         letterPixels[i] = load_pixels(headerLetter, letter);
         
         fclose(letter);
@@ -105,6 +109,8 @@ int main (int argc, char* argv[]) {
 
     // remake the image
 
+    
+
     // create output file
     FILE* output = NULL;
     output = fopen(outputFile, "wb");
@@ -112,6 +118,28 @@ int main (int argc, char* argv[]) {
     int height = 0;
     memcpy(&width, headerInput.width, 2);
     memcpy(&height, headerInput.height, 2);
+
+    // printf("%d\n", letterWidth[0]);
+    // printf("%d\n", letterHeight[0]);
+    // for (int row = 0; row < height; row++) {
+    //     for (int col = 0; col < width; col++) {
+    //         Pixel* pixel = inputPixels + (row * width + col);
+    //         pixel->red = 0;
+    //         pixel->green = 0;
+    //         pixel->blue = 0;
+    //     }
+    // }
+    for (int row = 0; row < letterHeight[0]; row++) {
+        for (int col = 0; col < letterWidth[0]; col++) {
+            Pixel* inputPixel = inputPixels + ((row + 100)  * width + col + width / 2 - letterWidth[0] / 2);
+            Pixel* pixel = letterPixels[0] + (row * letterWidth[0] + col);
+            if (pixel->red == 255 && pixel->green == 255 && pixel->blue == 255) {
+                inputPixel->red = pixel->red;
+                inputPixel->green = pixel->green;
+                inputPixel->blue = pixel->blue;
+            }
+        }
+    }
 
     fwrite(&headerInput, sizeof(TGAHeader), 1, output);
     fwrite(inputPixels, sizeof(Pixel) * width * height, 1, output);
