@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <limits.h>
+#include "cvikotga.h"
 
 // void swap(int* a, int* b){
 //     int tmp = *a;
@@ -152,27 +153,6 @@
 //     return 0;
 // }
 
-typedef struct {
-    char idlength;
-    char colourmaptype;
-    char datatypecode;
-    char colourmaporigin[2];
-    char colourmaplength[2];
-    char colourmapdepth;
-    char x_origin[2];
-    char y_origin[2];
-    char width[2];
-    char height[2];
-    char bitsperpixel;
-    char imagedescriptor;
-} HEADER;
-
-typedef struct {
-    char B;
-    char G;
-    char R;
-} PIXEL;
-
 int main() {
 
     // srand(time(NULL));
@@ -227,18 +207,13 @@ int main() {
         for (int y = 0; y < height; y++) {
             
             int i = y * width + x;
-            pixel[i].B = (x * y) % 256;
-            pixel[i].G = (x * y) % 256;
-            pixel[i].R = (x * y) % 256;
+            pixel[i].B = 0;
+            pixel[i].G = 0;
+            pixel[i].R = 0;
         }
     }
 
-    FILE* image = fopen("image.tga", "wb");
-
-    fwrite(&header, sizeof(header), 1, image); 
-    fwrite(pixel, sizeof(PIXEL), width * height, image);
-
-    fclose(image);
+    save_tga(header, pixel, "image.tga");
 
     return 0;
 }
