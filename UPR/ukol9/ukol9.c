@@ -26,6 +26,7 @@ typedef struct {
 } Pixel;
 
 Pixel* load_pixels(TGAHeader header, FILE* file);
+void modifyImage(Pixel* image, Pixel* letter, int letterHeight, int letterWidth, int imageWidth, int offsetY, int offsetX, int constOffset);
 
 int main (int argc, char* argv[]) {
 
@@ -34,6 +35,10 @@ int main (int argc, char* argv[]) {
     char* fontFile = "0";
     char alphabet[26][20];
     Pixel* letterPixels[26] = {NULL};
+    int letterWidth[26] = {0};
+    int letterHeight[26] = {0};
+    int width = 0;
+    int height = 0;
     int n = sizeof(alphabet) / sizeof(alphabet[0]);
 
     // arg check
@@ -57,6 +62,8 @@ int main (int argc, char* argv[]) {
 
     TGAHeader headerInput = {0};
     fread(&headerInput, sizeof(TGAHeader), 1, file);
+    memcpy(&width, headerInput.width, 2);
+    memcpy(&height, headerInput.height, 2);
     Pixel* inputPixels = load_pixels(headerInput, file);
 
     fclose(file);
@@ -74,12 +81,14 @@ int main (int argc, char* argv[]) {
         
         TGAHeader headerLetter = {0};
         fread(&headerLetter, sizeof(TGAHeader), 1, letter);
+        memcpy(&letterWidth[i], headerLetter.width, 2);
+        memcpy(&letterHeight[i], headerLetter.height, 2);
         letterPixels[i] = load_pixels(headerLetter, letter);
         
         fclose(letter);
     }
 
-    // get top bottom and strings
+    // get top, bottom, strings and modify the image
     int top = 0;
     int bottom = 0;
     char tbBuffer[10];
@@ -96,25 +105,54 @@ int main (int argc, char* argv[]) {
     }
 
     char lnBuffer[101];
-    for (int i = 0; i < (top + bottom); i++) {
+
+    int topOffsetY = 10;
+    int topOffsetX = 0;
+    for (int i = 0; i < top; i++) {
+
         fgets(lnBuffer, sizeof(lnBuffer), stdin);
-        for(int j = 0; lnBuffer[j] != '\0'; j++) {
-            lnBuffer[j] = (char)toupper(lnBuffer[j]);
+        int letterCount = (int)strlen(lnBuffer) - 1;
+        int constOffset = letterWidth[0] * letterCount / 2 + 10;
+
+        for (int j = 0; lnBuffer[j] != '\0' && lnBuffer[j] != '\n'; j++) {
+            lnBuffer[j] = (char)toupper((unsigned char)lnBuffer[j]);
+            int index = lnBuffer[j] - 'A';
+            topOffsetX = letterWidth[0] * letterCount;
+            letterCount--;
+            if (index >= 0 && index <= 25) {
+                modifyImage(inputPixels, letterPixels[index], letterHeight[index], letterWidth[index], width, topOffsetY, topOffsetX, constOffset);
+            }
         }
+        topOffsetY += letterHeight[0] + 5;
     }
 
-    // remake the image
+    int bottomOffsetY = height - letterHeight[0] * bottom - 10;
+    int bottomOffsetX = 0;
+    for (int i = 0; i < bottom; i++) {
+
+        fgets(lnBuffer, sizeof(lnBuffer), stdin);
+        int letterCount = (int)strlen(lnBuffer) - 1;
+        int constOffset = letterWidth[0] * letterCount / 2 + 10;
+        
+        for (int j = 0; lnBuffer[j] != '\0' && lnBuffer[j] != '\n'; j++) {
+            lnBuffer[j] = (char)toupper((unsigned char)lnBuffer[j]);
+            int index = lnBuffer[j] - 'A';
+            bottomOffsetX = letterWidth[0] * letterCount;
+            letterCount--;
+            if (index >= 0 && index <= 25) {
+                modifyImage(inputPixels, letterPixels[index], letterHeight[index], letterWidth[index], width, bottomOffsetY, bottomOffsetX, constOffset);
+            }
+        }
+        bottomOffsetY += letterHeight[0] + 5;
+    }
 
     // create output file
     FILE* output = NULL;
     output = fopen(outputFile, "wb");
-    int width = 0;
-    int height = 0;
-    memcpy(&width, headerInput.width, 2);
-    memcpy(&height, headerInput.height, 2);
 
     fwrite(&headerInput, sizeof(TGAHeader), 1, output);
     fwrite(inputPixels, sizeof(Pixel) * width * height, 1, output);
+
     fclose(output);
 
     // free memory
@@ -140,4 +178,18 @@ Pixel* load_pixels(TGAHeader header, FILE* file) {
     Pixel* pixels = (Pixel*)malloc(sizeof(Pixel) * width * height);
     assert(fread(pixels, sizeof(Pixel) * width * height, 1, file) == 1);
     return pixels;
+}
+
+void modifyImage(Pixel* image, Pixel* letter, int letterHeight, int letterWidth, int imageWidth, int offsetY, int offsetX, int constOffset) {
+    for (int row = 0; row < letterHeight; row++) {
+        for (int col = 0; col < letterWidth; col++) {
+            Pixel* inputPixel = image + ((row + offsetY)  * imageWidth + col + imageWidth / 2 - letterWidth / 2 - offsetX + constOffset);
+            Pixel* pixel = letter + (row * letterWidth + col);
+            if (pixel->red == 255 && pixel->green == 255 && pixel->blue == 255) {
+                inputPixel->red = pixel->red;
+                inputPixel->green = pixel->green;
+                inputPixel->blue = pixel->blue;
+            }
+        }
+    }
 }
