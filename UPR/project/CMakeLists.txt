@@ -1,11 +1,13 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.4)
+
 project(project)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")  # -fsanitize=address
 
-add_executable(program main.c)
+add_executable(project main.c dynamic_array.c alien.c player.c)
 
 find_package(SDL2 REQUIRED)
 
-target_include_directories(program PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_libraries(program SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(project SDL2 SDL2_image)
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
