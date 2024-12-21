@@ -1,12 +1,15 @@
-#include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "dynamic_array.h"
 #include "player.h"
 #include "globals.h"
 #include "alien.h"
+#include "text.h"
 
 int main() {
+    // seed
+    srand((unsigned int)time(NULL));
+
     // SDL init
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     SDL_Window* window = SDL_CreateWindow("Space Invaders", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, TAB_WIDTH, TAB_HEIGHT, SDL_WINDOW_SHOWN);
@@ -21,16 +24,29 @@ int main() {
     dynarray rockets;
     dynarray_init(&rockets, 3);
 
-    const int MOVEMENT_VELOCITY = 6;
-    const int ROCKET_VELOCITY = 6;
+    // init alien rockets
+    dynarray alienRockets;
+    dynarray_init(&alienRockets, 10);
 
     // init aliens
     Alien aliens[ALIEN_ROWS][ALIEN_COLS];
     initAliens(renderer, aliens);
 
-    // init bonus space ship
+    // init space ship
     Alien spaceShip;
     initSpaceShip(renderer, &spaceShip);
+
+    // text init
+    TTF_Init();
+    TTF_Font *font = TTF_OpenFont("assets/ARIALBD.TTF", 24);
+    SDL_Color white = {122, 122, 122, 122};
+    SDL_Rect scoreRect = {
+        scoreRect.x = 10,
+        scoreRect.y = 10,
+        scoreRect.h = 40,
+        scoreRect.w = 200
+    };
+    SDL_Rect healthRect = {50, TAB_WIDTH - 200, 200, 40};
 
     // game loop
     int running = 1;
@@ -40,6 +56,7 @@ int main() {
     int spacekey = 0;
     int rocketDelay = 60;
     int alientMoveDelay = 0;
+    int startAlientRocketDelay = 0;
 
     int targetFPS = 60;
     int frameDelay = 1000 / targetFPS;
@@ -66,14 +83,7 @@ int main() {
                         break;
                     }
                     if ((event.key.keysym.scancode == SDL_SCANCODE_SPACE || event.key.keysym.scancode == SDL_SCANCODE_UP) && rocketDelay == 60) {
-                        // create rocket
-                        Rocket* newRocket = (Rocket*)malloc(sizeof(Rocket));
-                        newRocket->image = IMG_LoadTexture(renderer, "assets/player_rocket.png");
-                        newRocket->destRect.x = player.destRect.x + player.destRect.w / 2 - 2;
-                        newRocket->destRect.y = player.destRect.y - 3;
-                        newRocket->destRect.w = 5;
-                        newRocket->destRect.h = 15;
-                        dynarray_push(&rockets, newRocket);
+                        playerRocket(renderer, &rockets, player);
                         rocketDelay = 0;
                         break;
                     }
@@ -107,48 +117,41 @@ int main() {
         if (alientMoveDelay < 90) {
             alientMoveDelay++;
         }
-        
-        for (int i = 0; i < rockets.size; i++) {
-            Rocket* rocket = (Rocket*) rockets.items[i];
-
-            rocket->destRect.y -= ROCKET_VELOCITY;
-
-            if (rocket->destRect.y < 0) {
-                SDL_DestroyTexture(rocket->image);
-                dynarray_remove(&rockets, rocket);
-            }
-        }
-        for (int i = 0; i < rockets.size; i++) {
-            Rocket* rocket = (Rocket*) rockets.items[i];
-            int collision = detectAlienCollision(rocket->destRect, aliens);
-            int SScollision = detectSpaceShipCollision(rocket->destRect, &spaceShip);
-            if (collision) {
-                SDL_DestroyTexture(rocket->image);
-                dynarray_remove(&rockets, rocket);
-            }
-            if (SScollision) {
-                SDL_DestroyTexture(rocket->image);
-                dynarray_remove(&rockets, rocket);
-            }
+        if (startAlientRocketDelay < 120) {
+            startAlientRocketDelay++;
         }
         
+        //move textures and check collisions
+        rocketMovement(&rockets);
+        collisionCheck(&rockets, aliens, &spaceShip);
+        if (startAlientRocketDelay == 120) {
+            alienRocket(renderer, &alienRockets, aliens);
+        }
+        alienRocketMovement(&alienRockets);
+        
+        // render stuff
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
 
         SDL_RenderCopy(renderer, player.image, NULL, &player.destRect);
-        drawAliens(renderer, aliens);
-        drawSpaceShip(renderer, spaceShip);
+        renderAliens(renderer, aliens, &spaceShip);
+        renderAlienRockets(renderer, &alienRockets);
+        renderSpaceShip(renderer, spaceShip);
         if (alientMoveDelay == 90) {
             moveAliens(aliens);
             alientMoveDelay = 0;
         }
         moveSpaceShip(&spaceShip);
-        for (int i = 0; i < rockets.size; i++) {
-            Rocket* rocket = (Rocket*) rockets.items[i];
-            SDL_RenderCopy(renderer, rocket->image, NULL, &rocket->destRect);
-        }
+        renderRockets(renderer, &rockets);
 
         SDL_RenderPresent(renderer);
+
+        // render text
+        // SDL_Texture *score = createTextTexture(renderer, "Score 0", white, font);
+        // SDL_Texture *health = createTextTexture(renderer, "Health 100", white, font);
+        // renderText(renderer, score, &scoreRect);
+        // renderText(renderer, health, &healthRect);
+        // renderSimpleText(renderer, 40, 40, white, "cauasdasds");
 
         // 60 fps
         Uint32 frameEnd = SDL_GetTicks();
@@ -160,9 +163,12 @@ int main() {
 
     // quit loop
     dynarray_free(&rockets);
+    dynarray_free(&alienRockets);
     SDL_DestroyTexture(player.image);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(font);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 

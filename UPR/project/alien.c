@@ -1,15 +1,13 @@
 #include "alien.h"
-#include "globals.h"
 
 int reachedEdge = 0;
 int SSreachedEdge = 0;
 int direction = 1;
 int SSdirection = 1;
 int alienSpeed = 10;
+int SSspeed = 6;
 
-// x, y, w, h
 void initAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
-
     int totalGridWidth = (ALIEN_COLS * ALIEN_WIDTH) + ((ALIEN_COLS - 1) * ALIEN_SPACING);
     int startX = (TAB_WIDTH - totalGridWidth) / 2;
     int offsetY = 60;
@@ -34,18 +32,27 @@ void initAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
     }
 }
 
-void drawAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
+void renderAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip) {
+    // atleast 1 alive check
+    int alive = 0;
     for (int i = 0; i < ALIEN_ROWS; i++) {
         for (int j = 0; j < ALIEN_COLS; j++) {
             if (aliens[i][j].health) {
                 SDL_RenderCopy(renderer, aliens[i][j].image, NULL, &aliens[i][j].destRect);
+                alive++;
             }
+        }
+    }
+
+    if (alive == 0) {
+        initAliens(renderer, aliens);
+        if (spaceShip->health == 0) {
+            initSpaceShip(renderer, spaceShip);
         }
     }
 }
 
 void moveAliens (Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
-
     // edge check
     for (int i = 0; i < ALIEN_ROWS; i++) {
         for (int j = 0; j < ALIEN_COLS; j++) {
@@ -58,6 +65,7 @@ void moveAliens (Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
         }
     }
 
+    // direction change
     if (reachedEdge) {
         direction *= -1;
     }
@@ -74,14 +82,53 @@ void moveAliens (Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
         }
     }
 
-    // direction change
     if (reachedEdge) {
         reachedEdge = 0;
     }
 }
 
-int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
+void alienRocket (SDL_Renderer *renderer, dynarray *alienRockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
+    
+    for (int col = 0; col < ALIEN_COLS; col++) {
+        // lowest in column and alive
+        for (int row = ALIEN_ROWS - 1; row >= 0; row--) {
+            if (aliens[row][col].health) {
+                if (rand() % 420 < 1) { // 420 / 60 = 7% chance per move
+                    Rocket *newAlienRocket = (Rocket*)malloc(sizeof(Rocket));
+                    newAlienRocket->image = IMG_LoadTexture(renderer, "assets/rocket.png");
+                    newAlienRocket->destRect.x = aliens[row][col].destRect.x + aliens[row][col].destRect.w / 2 - 3;
+                    newAlienRocket->destRect.y = aliens[row][col].destRect.y + aliens[row][col].destRect.h - 12;
+                    newAlienRocket->destRect.w = 5;
+                    newAlienRocket->destRect.h = 15;
+                    dynarray_push(alienRockets, newAlienRocket);
+                }
+                break; // first row only
+            }
+        }
+    }
+}
 
+void alienRocketMovement (dynarray *alienRockets) {
+    for (int i = 0; i < alienRockets->size; i++) {
+        Rocket* rocket = (Rocket*) alienRockets->items[i];
+
+        rocket->destRect.y += ROCKET_VELOCITY;
+
+        if (rocket->destRect.y > TAB_HEIGHT) {
+            SDL_DestroyTexture(rocket->image);
+            dynarray_remove(alienRockets, rocket);
+        }
+    }
+}
+
+void renderAlienRockets (SDL_Renderer *renderer, dynarray *alienRockets) {
+    for (int i = 0; i < alienRockets->size; i++) {
+        Rocket* alienRocket = (Rocket*) alienRockets->items[i];
+        SDL_RenderCopy(renderer, alienRocket->image, NULL, &alienRocket->destRect);
+    }
+}
+
+int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
     for (int i = 0; i < ALIEN_ROWS; i++) {
         for (int j = 0; j < ALIEN_COLS; j++) {
             if (aliens[i][j].health) {
@@ -97,9 +144,8 @@ int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS])
 }
 
 void initSpaceShip (SDL_Renderer *renderer, Alien *spaceShip) {
-
     int startX = (TAB_WIDTH - SPACE_SHIP_WIDTH) / 2;
-    int offsetY = 10;
+    int offsetY = 20;
     spaceShip->image = IMG_LoadTexture(renderer, "assets/space_ship.png");
     spaceShip->destRect.x = startX;
     spaceShip->destRect.y = offsetY;
@@ -108,30 +154,30 @@ void initSpaceShip (SDL_Renderer *renderer, Alien *spaceShip) {
     spaceShip->health = 1;
 }
 
-void drawSpaceShip (SDL_Renderer *renderer, Alien spaceShip) {
+void renderSpaceShip (SDL_Renderer *renderer, Alien spaceShip) {
     if (spaceShip.health) {
         SDL_RenderCopy(renderer, spaceShip.image, NULL, &spaceShip.destRect);
     }
 }
 
 void moveSpaceShip (Alien *spaceShip) {
-
+    // edge check
     if (spaceShip->health) {
-        if ((spaceShip->destRect.x + SSdirection * alienSpeed) < 0 || (spaceShip->destRect.x + SSdirection * alienSpeed + SPACE_SHIP_WIDTH) > TAB_WIDTH) {
+        if ((spaceShip->destRect.x + SSdirection * SSspeed) < 0 || (spaceShip->destRect.x + SSdirection * SSspeed + SPACE_SHIP_WIDTH) > TAB_WIDTH) {
             SSreachedEdge = 1;
         }
     }
 
+    // direction change
     if (SSreachedEdge) {
         SSdirection *= -1;
     }
 
     // move space ship
     if (spaceShip->health) {
-        spaceShip->destRect.x += SSdirection * alienSpeed;
+        spaceShip->destRect.x += SSdirection * SSspeed;
     }
 
-    // direction change
     if (SSreachedEdge) {
         SSreachedEdge = 0;
     }
@@ -146,4 +192,20 @@ int detectSpaceShipCollision (SDL_Rect rocket, Alien *spaceShip) {
         }
     }
     return 0;
+}
+
+void collisionCheck(dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip) {
+    for (int i = 0; i < rockets->size; i++) {
+            Rocket* rocket = (Rocket*) rockets->items[i];
+            int collision = detectAlienCollision(rocket->destRect, aliens);
+            int SScollision = detectSpaceShipCollision(rocket->destRect, spaceShip);
+            if (collision) {
+                SDL_DestroyTexture(rocket->image);
+                dynarray_remove(rockets, rocket);
+            }
+            if (SScollision) {  
+                SDL_DestroyTexture(rocket->image);
+                dynarray_remove(rockets, rocket);
+            }
+        }
 }

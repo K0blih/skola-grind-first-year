@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.4)
 
 project(project)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")  # -fsanitize=address
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")  # -fsanitize=address
 
-add_executable(project main.c dynamic_array.c alien.c player.c)
+add_executable(project main.c dynamic_array.c alien.c player.c text.c)
 
 find_package(SDL2 REQUIRED)
 
