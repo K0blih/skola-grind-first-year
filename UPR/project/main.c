@@ -53,7 +53,6 @@ int main() {
     int gameStart = 1;
     int leftKey = 0;
     int rightKey = 0;
-    int upKey = 0;
     int rocketDelay = 60;
     int alientMoveDelay = 0;
     int startAlientRocketDelay = 0;
@@ -91,6 +90,7 @@ int main() {
                         rocketDelay = 0;
                         break;
                     }
+                    break;
                 }
                 case SDL_KEYUP: {
                     if (event.key.keysym.scancode == SDL_SCANCODE_LEFT) {
@@ -101,6 +101,10 @@ int main() {
                         rightKey = 0;
                         break;
                     }
+                    break;
+                }
+                default: {
+                    break;
                 }
             }
         }
@@ -146,7 +150,6 @@ int main() {
             score = 0;
             leftKey = 0;
             rightKey = 0;
-            upKey = 0;
             rocketDelay = 60;
             alientMoveDelay = 0;
             startAlientRocketDelay = 0;
