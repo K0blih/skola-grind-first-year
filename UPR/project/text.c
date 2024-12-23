@@ -1,29 +1,37 @@
 #include "text.h"
 
-SDL_Texture* createTextTexture(SDL_Renderer *renderer, char *text, SDL_Color color, TTF_Font *font) {
+void sdl_draw_text (SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, const char* text) {
+    // Vykreslení textu se zadaným fontem a barvou do obrázku (surface)
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
+    // Převod surface na hardwarovou texturu
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-    SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    // Vykreslení obrázku
+    SDL_RenderCopy(renderer, texture, NULL, &location);
+
+    // Uvolnění textury a surface
+    SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
-
-    return texture;
 }
 
-void renderText(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect *destRect) {
-    SDL_RenderCopy(renderer, texture, NULL, destRect);
+void updateScore (SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, int score) {
+    int bufferSize = 16;
+    char *str = (char*)malloc(bufferSize * sizeof(char));
+
+    sprintf(str, "SCORE %d", score);
+
+    sdl_draw_text(renderer, font, color, location, str);
+
+    free(str);
 }
 
-void renderSimpleText(SDL_Renderer *renderer, int x, int y, SDL_Color color, const char *text) {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    int textWidth = strlen(text) * 8;
-    int textHeight = 16; // Assuming 8x16 characters
+void updateHealth (SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, Player player) {
+    int bufferSize = 11;
+    char *str = (char*)malloc(bufferSize * sizeof(char));
 
-    SDL_Rect destRect = {x, y, textWidth, textHeight};
-    SDL_RenderDrawRect(renderer, &destRect);
+    sprintf(str, "HEALTH %d", player.health);
 
-    // Render each character (very basic method)
-    for (int i = 0; i < strlen(text); i++) {
-        SDL_Rect charRect = {x + (i * 8), y, 8, 16};
-        SDL_RenderFillRect(renderer, &charRect);
-    }
+    sdl_draw_text(renderer, font, color, location, str);
+
+    free(str);
 }

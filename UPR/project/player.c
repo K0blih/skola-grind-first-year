@@ -39,3 +39,23 @@ void renderRockets(SDL_Renderer *renderer, dynarray *rockets) {
         SDL_RenderCopy(renderer, rocket->image, NULL, &rocket->destRect);
     }
 }
+
+int detectPlayerCollision (SDL_Rect rocket, Player *player) {
+    int collision = SDL_HasIntersection(&rocket, &player->destRect);
+    if (collision) {
+        player->health--;
+        return 1;
+    }
+    return 0;
+}
+
+void playerCollisionCheck (dynarray *rockets, Player *player) {
+    for (int i = 0; i < rockets->size; i++) {
+            Rocket* rocket = (Rocket*) rockets->items[i];
+            int collision = detectPlayerCollision(rocket->destRect, player);
+            if (collision) {
+                SDL_DestroyTexture(rocket->image);
+                dynarray_remove(rockets, rocket);
+            }
+        }
+}

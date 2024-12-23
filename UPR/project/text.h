@@ -1,7 +1,8 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "player.h"
 
-SDL_Texture* createTextTexture(SDL_Renderer *renderer, char *text, SDL_Color color, TTF_Font *font);
-void renderText (SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect *destRect);
-void renderSimpleText(SDL_Renderer *renderer, int x, int y, SDL_Color color, const char *text);
+void sdl_draw_text(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, const char* text);
+void updateScore(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, int score);
+void updateHealth(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, SDL_Rect location, Player player);

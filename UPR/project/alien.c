@@ -10,18 +10,21 @@ int SSspeed = 6;
 void initAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
     int totalGridWidth = (ALIEN_COLS * ALIEN_WIDTH) + ((ALIEN_COLS - 1) * ALIEN_SPACING);
     int startX = (TAB_WIDTH - totalGridWidth) / 2;
-    int offsetY = 60;
+    int offsetY = 100;
 
     for (int i = 0; i < ALIEN_ROWS; i++) {
         for (int j = 0; j < ALIEN_COLS; j++) {
             if (i == 0) {
                 aliens[i][j].image = IMG_LoadTexture(renderer, "assets/top_alien.png");
+                aliens[i][j].value = 3;
             }
             else if (i > 0 && i < ALIEN_ROWS - 1) {
                 aliens[i][j].image = IMG_LoadTexture(renderer, "assets/middle_alien.png");
+                aliens[i][j].value = 2;
             }
             else {
                 aliens[i][j].image = IMG_LoadTexture(renderer, "assets/bottom_alien.png");
+                aliens[i][j].value = 1;
             }
             aliens[i][j].destRect.x = startX + j * (ALIEN_WIDTH + ALIEN_SPACING);
             aliens[i][j].destRect.y = offsetY + i * (ALIEN_HEIGHT + ALIEN_SPACING);
@@ -128,13 +131,14 @@ void renderAlienRockets (SDL_Renderer *renderer, dynarray *alienRockets) {
     }
 }
 
-int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
+int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS], int *score) {
     for (int i = 0; i < ALIEN_ROWS; i++) {
         for (int j = 0; j < ALIEN_COLS; j++) {
             if (aliens[i][j].health) {
                 int collision = SDL_HasIntersection(&rocket, &aliens[i][j].destRect);
                 if (collision) {
                     aliens[i][j].health = 0;
+                    (*score) += aliens[i][j].value;
                     return 1;
                 }
             }
@@ -145,13 +149,14 @@ int detectAlienCollision (SDL_Rect rocket, Alien aliens[ALIEN_ROWS][ALIEN_COLS])
 
 void initSpaceShip (SDL_Renderer *renderer, Alien *spaceShip) {
     int startX = (TAB_WIDTH - SPACE_SHIP_WIDTH) / 2;
-    int offsetY = 20;
+    int offsetY = 60;
     spaceShip->image = IMG_LoadTexture(renderer, "assets/space_ship.png");
     spaceShip->destRect.x = startX;
     spaceShip->destRect.y = offsetY;
     spaceShip->destRect.w = SPACE_SHIP_WIDTH;
     spaceShip->destRect.h = SPACE_SHIP_HEIGHT;
     spaceShip->health = 1;
+    spaceShip->value = rand() % 40 + 10;
 }
 
 void renderSpaceShip (SDL_Renderer *renderer, Alien spaceShip) {
@@ -183,22 +188,23 @@ void moveSpaceShip (Alien *spaceShip) {
     }
 }
 
-int detectSpaceShipCollision (SDL_Rect rocket, Alien *spaceShip) {
+int detectSpaceShipCollision (SDL_Rect rocket, Alien *spaceShip, int *score) {
     if (spaceShip->health) {
         int collision = SDL_HasIntersection(&rocket, &spaceShip->destRect);
         if (collision) {
             spaceShip->health = 0;
+            (*score) += spaceShip->value;
             return 1;
         }
     }
     return 0;
 }
 
-void collisionCheck(dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip) {
+void collisionCheck (dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip, int *score) {
     for (int i = 0; i < rockets->size; i++) {
             Rocket* rocket = (Rocket*) rockets->items[i];
-            int collision = detectAlienCollision(rocket->destRect, aliens);
-            int SScollision = detectSpaceShipCollision(rocket->destRect, spaceShip);
+            int collision = detectAlienCollision(rocket->destRect, aliens, score);
+            int SScollision = detectSpaceShipCollision(rocket->destRect, spaceShip, score);
             if (collision) {
                 SDL_DestroyTexture(rocket->image);
                 dynarray_remove(rockets, rocket);

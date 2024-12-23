@@ -19,3 +19,5 @@ void initPlayer(SDL_Renderer *renderer, Player *player);
 void playerRocket(SDL_Renderer *renderer, dynarray *rockets, Player player);
 void rocketMovement(dynarray *rockets);
 void renderRockets(SDL_Renderer *renderer, dynarray *rockets);
+int detectPlayerCollision(SDL_Rect rocket, Player *player);
+void playerCollisionCheck(dynarray *rockets, Player *player);

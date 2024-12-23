@@ -1,17 +1,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "dynamic_array.h"
 #include "player.h"
 #include "globals.h"
 #include "alien.h"
 #include "text.h"
+#include "menu.h"
 
 int main() {
     // seed
     srand((unsigned int)time(NULL));
 
     // SDL init
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_VIDEO);
     SDL_Window* window = SDL_CreateWindow("Space Invaders", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, TAB_WIDTH, TAB_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_Event event;
@@ -38,40 +40,41 @@ int main() {
 
     // text init
     TTF_Init();
-    TTF_Font *font = TTF_OpenFont("assets/ARIALBD.TTF", 24);
-    SDL_Color white = {122, 122, 122, 122};
-    SDL_Rect scoreRect = {
-        scoreRect.x = 10,
-        scoreRect.y = 10,
-        scoreRect.h = 40,
-        scoreRect.w = 200
-    };
-    SDL_Rect healthRect = {50, TAB_WIDTH - 200, 200, 40};
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+    TTF_Font *font = TTF_OpenFont("assets/Arial.ttf", 80);
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Rect scoreRect = {100, 0, 150, 40};
+    SDL_Rect healthRect = {TAB_WIDTH - 250, 0, 150, 40};
 
     // game loop
     int running = 1;
+    int afterGame = 0;
     int leftKey = 0;
     int rightKey = 0;
     int upKey = 0;
-    int spacekey = 0;
     int rocketDelay = 60;
     int alientMoveDelay = 0;
     int startAlientRocketDelay = 0;
 
+    int score = 0;
+
     int targetFPS = 60;
     int frameDelay = 1000 / targetFPS;
-    while(running) {
+    while (running) {
         Uint32 frameStart = SDL_GetTicks();
 
-        while(SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT: {
                     running = 0;
+                    afterGame = 0;
                     break;
                 }
                 case SDL_KEYDOWN: {
                     if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                         running = 0;
+                        afterGame = 0;
                         break;
                     }
                     if (event.key.keysym.scancode == SDL_SCANCODE_LEFT) {
@@ -114,44 +117,61 @@ int main() {
         if (rocketDelay < 60) {
             rocketDelay++;
         }
-        if (alientMoveDelay < 90) {
+        if (alientMoveDelay < 60) {
             alientMoveDelay++;
         }
         if (startAlientRocketDelay < 120) {
             startAlientRocketDelay++;
         }
+        if (player.health == 0) {
+            afterGame = 1;
+        }
+
+        // game over
+        while (afterGame) {
+            gameOverLoop(renderer, font, white, &running, score, &rockets, &alienRockets);
+            initPlayer(renderer, &player);
+            initAliens(renderer, aliens);
+            initSpaceShip(renderer, &spaceShip);
+            dynarray_init(&rockets, 3);
+            dynarray_init(&alienRockets, 10);
+            afterGame = 0;
+            score = 0;
+            leftKey = 0;
+            rightKey = 0;
+            upKey = 0;
+            rocketDelay = 60;
+            alientMoveDelay = 0;
+            startAlientRocketDelay = 0;
+        }
         
-        //move textures and check collisions
+        // move textures and check collisions
         rocketMovement(&rockets);
-        collisionCheck(&rockets, aliens, &spaceShip);
+        collisionCheck(&rockets, aliens, &spaceShip, &score);
         if (startAlientRocketDelay == 120) {
             alienRocket(renderer, &alienRockets, aliens);
         }
         alienRocketMovement(&alienRockets);
+        playerCollisionCheck(&alienRockets, &player);
         
         // render stuff
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
 
+        updateScore(renderer, font, white, scoreRect, score);
+        updateHealth(renderer, font, white, healthRect, player);
+
         SDL_RenderCopy(renderer, player.image, NULL, &player.destRect);
         renderAliens(renderer, aliens, &spaceShip);
         renderAlienRockets(renderer, &alienRockets);
         renderSpaceShip(renderer, spaceShip);
-        if (alientMoveDelay == 90) {
+        if (alientMoveDelay == 60) {
             moveAliens(aliens);
             alientMoveDelay = 0;
         }
         moveSpaceShip(&spaceShip);
         renderRockets(renderer, &rockets);
-
         SDL_RenderPresent(renderer);
-
-        // render text
-        // SDL_Texture *score = createTextTexture(renderer, "Score 0", white, font);
-        // SDL_Texture *health = createTextTexture(renderer, "Health 100", white, font);
-        // renderText(renderer, score, &scoreRect);
-        // renderText(renderer, health, &healthRect);
-        // renderSimpleText(renderer, 40, 40, white, "cauasdasds");
 
         // 60 fps
         Uint32 frameEnd = SDL_GetTicks();

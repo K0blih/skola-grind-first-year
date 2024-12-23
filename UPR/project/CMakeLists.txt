@@ -2,12 +2,13 @@ cmake_minimum_required(VERSION 3.4)
 
 project(project)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")  # -fsanitize=address
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")  # -fsanitize=address
 
-add_executable(project main.c dynamic_array.c alien.c player.c text.c)
+add_executable(project main.c dynamic_array.c alien.c player.c text.c menu.c)
 
 find_package(SDL2 REQUIRED)
 
-target_link_libraries(project SDL2 SDL2_image)
+target_link_libraries(project SDL2 SDL2_image SDL2_ttf)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/assets/Arial.ttf DESTINATION ${CMAKE_BINARY_DIR}/assets)
