@@ -50,6 +50,7 @@ int main() {
     // game loop
     int running = 1;
     int afterGame = 0;
+    int gameStart = 1;
     int leftKey = 0;
     int rightKey = 0;
     int upKey = 0;
@@ -127,6 +128,12 @@ int main() {
             afterGame = 1;
         }
 
+        // menu
+        while (gameStart) {
+            menu(renderer, font, white, &running);
+            gameStart = 0;
+        }
+        
         // game over
         while (afterGame) {
             gameOverLoop(renderer, font, white, &running, score, &rockets, &alienRockets);

@@ -42,6 +42,7 @@ make
 
 ## Poznámky
 
+- Spodní mimozemšťani +1, střední +2, horní +3, vesmírná loď +10-50 bodů
 - Maximální skóre je ukládáno do `topScore.txt`.
 - Tento projekt vyžaduje knihovnu SDL2.
 - Před spuštěním projektu se ujistěte, že máte správně nastavené adresáře a soubory s texturami v CMakeLists.txt (`assets/`, `assets/ARIALBD.TTF`).

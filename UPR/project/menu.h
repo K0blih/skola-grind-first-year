@@ -5,3 +5,4 @@
 #include "text.h"
 
 void gameOverLoop(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, int *again, int score, dynarray *rockets, dynarray *alienRockets);
+void menu(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, int *again);
