@@ -58,6 +58,7 @@ int main() {
     int startAlientRocketDelay = 0;
 
     int score = 0;
+    int difficulty = 0;
 
     int targetFPS = 60;
     int frameDelay = 1000 / targetFPS;
@@ -153,9 +154,14 @@ int main() {
             rocketDelay = 60;
             alientMoveDelay = 0;
             startAlientRocketDelay = 0;
+            difficulty = 0;
         }
         
         // move textures and check collisions
+        if (alientMoveDelay >= 60 - difficulty) {
+            moveAliens(aliens);
+            alientMoveDelay = 0;
+        }
         rocketMovement(&rockets);
         collisionCheck(&rockets, aliens, &spaceShip, &score);
         if (startAlientRocketDelay == 120) {
@@ -163,7 +169,11 @@ int main() {
         }
         alienRocketMovement(&alienRockets);
         playerCollisionCheck(&alienRockets, &player);
-        
+        int check = checkAliensReachedPlayerLevel(aliens, player);
+        if (check) {
+            player.health = 0;
+        }
+
         // render stuff
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
@@ -172,13 +182,9 @@ int main() {
         updateHealth(renderer, font, white, healthRect, player);
 
         SDL_RenderCopy(renderer, player.image, NULL, &player.destRect);
-        renderAliens(renderer, aliens, &spaceShip);
+        renderAliens(renderer, aliens, &spaceShip, &difficulty);
         renderAlienRockets(renderer, &alienRockets);
         renderSpaceShip(renderer, spaceShip);
-        if (alientMoveDelay == 60) {
-            moveAliens(aliens);
-            alientMoveDelay = 0;
-        }
         moveSpaceShip(&spaceShip);
         renderRockets(renderer, &rockets);
         SDL_RenderPresent(renderer);

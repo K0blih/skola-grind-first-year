@@ -35,7 +35,7 @@ void initAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]) {
     }
 }
 
-void renderAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip) {
+void renderAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip, int *difficulty) {
     // atleast 1 alive check
     int alive = 0;
     for (int i = 0; i < ALIEN_ROWS; i++) {
@@ -48,6 +48,7 @@ void renderAliens (SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS],
     }
 
     if (alive == 0) {
+        (*difficulty) += 1;
         initAliens(renderer, aliens);
         if (spaceShip->health == 0) {
             initSpaceShip(renderer, spaceShip);
@@ -214,4 +215,15 @@ void collisionCheck (dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Al
                 dynarray_remove(rockets, rocket);
             }
         }
+}
+
+int checkAliensReachedPlayerLevel (Alien aliens[ALIEN_ROWS][ALIEN_COLS], Player player) {
+    for (int i = 0; i < ALIEN_ROWS; i++) {
+        for (int j = 0; j < ALIEN_COLS; j++) {
+            if (aliens[i][j].health && aliens[i][j].destRect.y + aliens[i][j].destRect.h >= player.destRect.y) {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
