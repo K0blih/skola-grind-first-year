@@ -24,7 +24,7 @@ typedef struct {
 } Alien;
 
 void initAliens(SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS]);
-void renderAliens(SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip);
+void renderAliens(SDL_Renderer *renderer, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip, int *difficulty);
 void moveAliens(Alien aliens[ALIEN_ROWS][ALIEN_COLS]);
 void alienRocket(SDL_Renderer *renderer, dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS]);
 void alienRocketMovement(dynarray *alienRockets);
@@ -35,3 +35,4 @@ void renderSpaceShip(SDL_Renderer *renderer, Alien spaceShip);
 void moveSpaceShip(Alien *spaceShip);
 int detectSpaceShipCollision(SDL_Rect rocket, Alien *spaceShip, int *score);
 void collisionCheck(dynarray *rockets, Alien aliens[ALIEN_ROWS][ALIEN_COLS], Alien *spaceShip, int *score);
+int checkAliensReachedPlayerLevel(Alien aliens[ALIEN_ROWS][ALIEN_COLS], Player player);
