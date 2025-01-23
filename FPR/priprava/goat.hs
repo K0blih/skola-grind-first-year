@@ -1,3 +1,6 @@
+import Data.List (isPrefixOf)
+import Data.List (group, sort)
+
 data Company = Name {name :: String}
              | Employees {count :: Int}
              | OwnerOf {children :: [Company]}
@@ -247,3 +250,58 @@ zipAll (Directory x children) f = Directory x [zipAll c f | c <- children]
 
 adjustSize :: Int -> Int
 adjustSize size = size * 2
+
+data Menu = Button {text :: String, size :: (Int, Int) }
+          | Container {children :: [Menu]}
+          deriving (Show)
+
+-- Příklad
+exampleMenu :: Menu
+exampleMenu =
+  Container
+    [ Button "File" (100, 30),
+      Button "Edit" (100, 30),
+      Container
+        [ Button "Copy" (50, 20),
+          Button "Paste" (50, 20) ] ]
+
+data FileType = Image | Executable | SourceCode | TextFile deriving (Show)
+
+data Entry 
+    = File { name :: String, size :: Int, fileType :: FileType }
+    | Directory { name :: String, entries :: [Entry] }
+    deriving (Show)
+-- Example root directory structure
+root :: Entry
+root = Directory "root" 
+    [ File "logo.jpg" 5000 Image
+    , Directory "classes" 
+        [ File "notes-fpr.txt" 200 TextFile
+        , File "presentation.jpg" 150 Image
+        , File "first_test.hs" 20 SourceCode 
+        ]
+    ]
+
+countExtension :: [String] -> [(String, Int)]
+countExtension xs = map (\ext -> (head ext, length ext)) (group (sort xs))
+
+countAllExtensions :: Entry -> [(String, Int)]
+countAllExtensions entry = countExtension (extractExtensions entry)
+  where
+    extractExtensions :: Entry -> [String]
+    extractExtensions (File name _ _) = [drop 1 (dropWhile (/= '.') name)]
+    extractExtensions (Directory _ children) = concatMap extractExtensions children
+
+searchFiles :: Entry -> String -> [String]
+searchFiles (File name _ _) prefix = if prefix `isPrefixOf` name then [name] else []
+searchFiles (Directory _ entries) prefix = concatMap (`searchFiles` prefix) entries
+
+copyFile :: Entry -> String -> String -> Entry
+copyFile (Directory dirName entries) fileName targetDir
+  | dirName == targetDir =
+      Directory dirName (newEntries ++ entries)
+  | otherwise =
+      Directory dirName (map (\entry -> copyFile entry fileName targetDir) entries) -- cooked
+  where
+    newEntries = [file | file@(File name _ _) <- entries, name == fileName]
+copyFile x _ _ = x
