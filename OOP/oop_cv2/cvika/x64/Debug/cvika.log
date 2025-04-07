@@ -1,4 +1,0 @@
-﻿  cv2_ukol.cpp
-C:\Users\Richa\source\repos\cvika\cv2_ukol.cpp(68,1): warning C4715: 'Tree::CreateNextLeft': not all control paths return a value
-C:\Users\Richa\source\repos\cvika\cv2_ukol.cpp(78,1): warning C4715: 'Tree::CreateNextRight': not all control paths return a value
-  cvika.vcxproj -> C:\Users\Richa\source\repos\cvika\x64\Debug\cvika.exe
