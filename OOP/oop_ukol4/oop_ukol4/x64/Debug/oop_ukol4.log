@@ -1,0 +1,10 @@
+﻿  CardStack.cpp
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(23,28): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(62,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(62,64): warning C4267:         with
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(62,64): warning C4267:         [
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(62,64): warning C4267:             _Ty=int
+C:\Users\Richa\source\repos\oop_ukol4\CardStack.cpp(62,64): warning C4267:         ]
+  CardStackIterator.cpp
+  Generating Code...
+  oop_ukol4.vcxproj -> C:\Users\Richa\source\repos\oop_ukol4\x64\Debug\oop_ukol4.exe
