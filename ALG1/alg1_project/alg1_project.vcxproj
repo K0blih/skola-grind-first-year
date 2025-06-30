@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{9d545ba0-a143-45f5-a963-ab9a4dbc8e5d}</ProjectGuid>
+    <RootNamespace>alg1project</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="output.txt" />
+    <Text Include="SlevaniSeznamu\0.txt" />
+    <Text Include="SlevaniSeznamu\1.txt" />
+    <Text Include="SlevaniSeznamu\10.txt" />
+    <Text Include="SlevaniSeznamu\11.txt" />
+    <Text Include="SlevaniSeznamu\12.txt" />
+    <Text Include="SlevaniSeznamu\13.txt" />
+    <Text Include="SlevaniSeznamu\14.txt" />
+    <Text Include="SlevaniSeznamu\15.txt" />
+    <Text Include="SlevaniSeznamu\16.txt" />
+    <Text Include="SlevaniSeznamu\17.txt" />
+    <Text Include="SlevaniSeznamu\18.txt" />
+    <Text Include="SlevaniSeznamu\19.txt" />
+    <Text Include="SlevaniSeznamu\2.txt" />
+    <Text Include="SlevaniSeznamu\20.txt" />
+    <Text Include="SlevaniSeznamu\21.txt" />
+    <Text Include="SlevaniSeznamu\22.txt" />
+    <Text Include="SlevaniSeznamu\23.txt" />
+    <Text Include="SlevaniSeznamu\24.txt" />
+    <Text Include="SlevaniSeznamu\25.txt" />
+    <Text Include="SlevaniSeznamu\26.txt" />
+    <Text Include="SlevaniSeznamu\27.txt" />
+    <Text Include="SlevaniSeznamu\28.txt" />
+    <Text Include="SlevaniSeznamu\29.txt" />
+    <Text Include="SlevaniSeznamu\3.txt" />
+    <Text Include="SlevaniSeznamu\30.txt" />
+    <Text Include="SlevaniSeznamu\31.txt" />
+    <Text Include="SlevaniSeznamu\32.txt" />
+    <Text Include="SlevaniSeznamu\33.txt" />
+    <Text Include="SlevaniSeznamu\34.txt" />
+    <Text Include="SlevaniSeznamu\35.txt" />
+    <Text Include="SlevaniSeznamu\36.txt" />
+    <Text Include="SlevaniSeznamu\37.txt" />
+    <Text Include="SlevaniSeznamu\38.txt" />
+    <Text Include="SlevaniSeznamu\39.txt" />
+    <Text Include="SlevaniSeznamu\4.txt" />
+    <Text Include="SlevaniSeznamu\40.txt" />
+    <Text Include="SlevaniSeznamu\41.txt" />
+    <Text Include="SlevaniSeznamu\42.txt" />
+    <Text Include="SlevaniSeznamu\43.txt" />
+    <Text Include="SlevaniSeznamu\44.txt" />
+    <Text Include="SlevaniSeznamu\45.txt" />
+    <Text Include="SlevaniSeznamu\46.txt" />
+    <Text Include="SlevaniSeznamu\47.txt" />
+    <Text Include="SlevaniSeznamu\48.txt" />
+    <Text Include="SlevaniSeznamu\49.txt" />
+    <Text Include="SlevaniSeznamu\5.txt" />
+    <Text Include="SlevaniSeznamu\50.txt" />
+    <Text Include="SlevaniSeznamu\51.txt" />
+    <Text Include="SlevaniSeznamu\52.txt" />
+    <Text Include="SlevaniSeznamu\53.txt" />
+    <Text Include="SlevaniSeznamu\54.txt" />
+    <Text Include="SlevaniSeznamu\55.txt" />
+    <Text Include="SlevaniSeznamu\56.txt" />
+    <Text Include="SlevaniSeznamu\57.txt" />
+    <Text Include="SlevaniSeznamu\58.txt" />
+    <Text Include="SlevaniSeznamu\59.txt" />
+    <Text Include="SlevaniSeznamu\6.txt" />
+    <Text Include="SlevaniSeznamu\60.txt" />
+    <Text Include="SlevaniSeznamu\61.txt" />
+    <Text Include="SlevaniSeznamu\62.txt" />
+    <Text Include="SlevaniSeznamu\63.txt" />
+    <Text Include="SlevaniSeznamu\64.txt" />
+    <Text Include="SlevaniSeznamu\65.txt" />
+    <Text Include="SlevaniSeznamu\66.txt" />
+    <Text Include="SlevaniSeznamu\67.txt" />
+    <Text Include="SlevaniSeznamu\68.txt" />
+    <Text Include="SlevaniSeznamu\69.txt" />
+    <Text Include="SlevaniSeznamu\7.txt" />
+    <Text Include="SlevaniSeznamu\70.txt" />
+    <Text Include="SlevaniSeznamu\71.txt" />
+    <Text Include="SlevaniSeznamu\72.txt" />
+    <Text Include="SlevaniSeznamu\73.txt" />
+    <Text Include="SlevaniSeznamu\74.txt" />
+    <Text Include="SlevaniSeznamu\75.txt" />
+    <Text Include="SlevaniSeznamu\76.txt" />
+    <Text Include="SlevaniSeznamu\77.txt" />
+    <Text Include="SlevaniSeznamu\78.txt" />
+    <Text Include="SlevaniSeznamu\79.txt" />
+    <Text Include="SlevaniSeznamu\8.txt" />
+    <Text Include="SlevaniSeznamu\80.txt" />
+    <Text Include="SlevaniSeznamu\81.txt" />
+    <Text Include="SlevaniSeznamu\82.txt" />
+    <Text Include="SlevaniSeznamu\83.txt" />
+    <Text Include="SlevaniSeznamu\84.txt" />
+    <Text Include="SlevaniSeznamu\85.txt" />
+    <Text Include="SlevaniSeznamu\86.txt" />
+    <Text Include="SlevaniSeznamu\87.txt" />
+    <Text Include="SlevaniSeznamu\88.txt" />
+    <Text Include="SlevaniSeznamu\89.txt" />
+    <Text Include="SlevaniSeznamu\9.txt" />
+    <Text Include="SlevaniSeznamu\90.txt" />
+    <Text Include="SlevaniSeznamu\91.txt" />
+    <Text Include="SlevaniSeznamu\92.txt" />
+    <Text Include="SlevaniSeznamu\93.txt" />
+    <Text Include="SlevaniSeznamu\94.txt" />
+    <Text Include="SlevaniSeznamu\95.txt" />
+    <Text Include="SlevaniSeznamu\96.txt" />
+    <Text Include="SlevaniSeznamu\97.txt" />
+    <Text Include="SlevaniSeznamu\98.txt" />
+    <Text Include="SlevaniSeznamu\99.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Doxyfile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

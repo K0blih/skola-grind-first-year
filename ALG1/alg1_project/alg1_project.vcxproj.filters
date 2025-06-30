@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SlevaniSeznamu">
+      <UniqueIdentifier>{edaa0aa8-fbc4-42ab-b5c2-0fcdff6ee894}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SlevaniSeznamu\0.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\1.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\2.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\3.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\4.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\5.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\6.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\7.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\8.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\9.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\10.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\11.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\12.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\13.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\14.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\15.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\16.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\17.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\18.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\19.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\20.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\21.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\22.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\23.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\24.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\25.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\26.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\27.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\28.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\29.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\30.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\31.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\32.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\33.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\34.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\35.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\36.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\37.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\38.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\39.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\40.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\41.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\42.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\43.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\44.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\45.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\46.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\47.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\48.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\49.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\50.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\51.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\52.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\53.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\54.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\55.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\56.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\57.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\58.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\59.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\60.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\61.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\62.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\63.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\64.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\65.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\66.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\67.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\68.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\69.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\70.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\71.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\72.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\73.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\74.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\75.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\76.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\77.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\78.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\79.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\80.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\81.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\82.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\83.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\84.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\85.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\86.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\87.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\88.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\89.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\90.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\91.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\92.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\93.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\94.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\95.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\96.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\97.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\98.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="SlevaniSeznamu\99.txt">
+      <Filter>SlevaniSeznamu</Filter>
+    </Text>
+    <Text Include="output.txt" />
+    <Text Include="input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Doxyfile" />
+  </ItemGroup>
+</Project>
