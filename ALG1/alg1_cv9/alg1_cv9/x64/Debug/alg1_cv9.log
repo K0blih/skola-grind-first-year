@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\Richa\source\repos\alg1_cv9\main.cpp(51,1): warning C4715: 'binarySearchRecursive': not all control paths return a value
+  alg1_cv9.vcxproj -> C:\Users\Richa\source\repos\alg1_cv9\x64\Debug\alg1_cv9.exe
